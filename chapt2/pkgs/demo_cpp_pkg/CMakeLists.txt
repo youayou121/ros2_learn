@@ -15,6 +15,9 @@ add_executable(ros2_cpp_node src/cpp_node.cpp)
 # target_link_libraries(ros2_cpp_node ${rclcpp_LIBRARIES})
 ament_target_dependencies(ros2_cpp_node rclcpp)
 
+install(TARGETS ros2_cpp_node
+  DESTINATION lib/${PROJECT_NAME})
+
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
   # the following line skips the linter which checks for copyrights
