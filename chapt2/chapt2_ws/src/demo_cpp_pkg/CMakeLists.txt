@@ -12,12 +12,13 @@ find_package(rclcpp REQUIRED) # find includes and lib
 add_executable(ros2_cpp_node src/cpp_node.cpp)
 add_executable(person_node src/person_node.cpp)
 add_executable(learn_lambda src/learn_lambda.cpp)
+add_executable(learn_functional src/learn_functional.cpp)
 # target_include_directories(ros2_cpp_node PUBLIC ${rclcpp_INCLUDE_DIRS})
 # target_link_libraries(ros2_cpp_node ${rclcpp_LIBRARIES})
 ament_target_dependencies(ros2_cpp_node rclcpp)
 ament_target_dependencies(person_node rclcpp)
 
-install(TARGETS ros2_cpp_node person_node learn_lambda
+install(TARGETS ros2_cpp_node person_node learn_lambda learn_functional
   DESTINATION lib/${PROJECT_NAME})
 
 if(BUILD_TESTING)
