@@ -17,6 +17,11 @@ public:
     {
         RCLCPP_INFO(this->get_logger(), "%s is eating %s.", this->name_.c_str(), food.c_str());
     }
+    
+    void set_name(const std::string &name)
+    {
+        this->name_ = name;
+    }
 };
 
 int main(int argc, char *argv[])
@@ -26,6 +31,12 @@ int main(int argc, char *argv[])
     std::shared_ptr<PersonNode> lisi_node = std::make_shared<PersonNode>("lisi_node", "Li Si", 18);
     zhangsan_node->eat("apple");
     lisi_node->eat("banana");
+    std::cout << "zhangsan_node use_count: " << zhangsan_node.use_count() << " address: " << zhangsan_node.get() << std::endl;
+    auto zhangsan_node2 = zhangsan_node;
+    zhangsan_node2->set_name("Zhang San 2");
+    zhangsan_node2->eat("pear");
+    zhangsan_node->eat("apple");
+    std::cout << "zhangsan_node use_count: " << zhangsan_node.use_count() << " address: " << zhangsan_node.get() << std::endl;
     rclcpp::spin(lisi_node);
     rclcpp::spin(zhangsan_node);
     rclcpp::shutdown();
