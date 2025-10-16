@@ -17,6 +17,7 @@ class NovelPubNode(Node):
             msg.data = novel
             self.novel_publisher_.publish(msg)
             self.get_logger().info(f"Published novel: {novel[:10]}...")
+            self.novels_queue_.put(novel)
 
     def download(self, url):
         response = requests.get(url)
