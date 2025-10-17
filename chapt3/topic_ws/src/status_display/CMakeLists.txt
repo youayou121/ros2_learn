@@ -13,7 +13,10 @@ find_package(Qt5 REQUIRED COMPONENTS Widgets)
 add_executable(hello_qt src/hello_qt.cpp)
 ament_target_dependencies(hello_qt rclcpp)
 target_link_libraries(hello_qt Qt5::Widgets)
-install(TARGETS hello_qt
+add_executable(status_display_node src/status_display_node.cpp)
+ament_target_dependencies(status_display_node rclcpp status_interfaces)
+target_link_libraries(status_display_node Qt5::Widgets)
+install(TARGETS hello_qt status_display_node
   DESTINATION lib/${PROJECT_NAME})
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
