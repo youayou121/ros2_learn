@@ -13,10 +13,14 @@ class FaceDetectionNode(Node):
         super().__init__(node_name)
         self.service_ = self.create_service(FaceDetector, 'face_detection_service', self.face_detection_callback)
         self.cv_bridge_ = CvBridge()
-        self.number_of_times_to_upsample_ = 2
-        self.model_ = "hog"
+        self.declare_parameter('number_of_times_to_upsample', 1)
+        self.declare_parameter('model', 'hog')
+        self.number_of_times_to_upsample_ = self.get_parameter('number_of_times_to_upsample').value
+        self.model_ = self.get_parameter('model').value
         self.get_logger().info(f'Service {self.service_.srv_name} is ready to receive requests.')
     def face_detection_callback(self, request, response):
+        self.number_of_times_to_upsample_ = self.get_parameter('number_of_times_to_upsample').value
+        self.model_ = self.get_parameter('model').value
         if request.image.data:
             cv_image = self.cv_bridge_.imgmsg_to_cv2(request.image)
         else:
