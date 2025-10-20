@@ -3,15 +3,17 @@
 #include<turtlesim/msg/pose.hpp>
 #include<chrono>
 #include<chapt4_interfaces/srv/patrol.hpp>
+#include<rcl_interfaces/msg/set_parameters_result.hpp>
 using Patrol = chapt4_interfaces::srv::Patrol;
 using namespace std::chrono_literals;
-
+using SetParametersResult = rcl_interfaces::msg::SetParametersResult;
 class TurtleControlNode : public rclcpp::Node
 {
 private:
     rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr cmd_pub_;
     rclcpp::Subscription<turtlesim::msg::Pose>::SharedPtr pose_sub_;
     rclcpp::Service<Patrol>::SharedPtr patrol_srv_;
+    OnSetParametersCallbackHandle::SharedPtr param_callback_handle_;
     float target_x_ = 1.0;
     float target_y_ = 1.0;
     float target_theta_ = 1.0;
@@ -24,6 +26,9 @@ public:
         patrol_srv_ = this->create_service<Patrol>("/turtle1/patrol", std::bind(&TurtleControlNode::patrol_request_callback, this, std::placeholders::_1, std::placeholders::_2));
         cmd_pub_ = this->create_publisher<geometry_msgs::msg::Twist>("/turtle1/cmd_vel", 10);
         pose_sub_ = this->create_subscription<turtlesim::msg::Pose>("/turtle1/pose", 10, std::bind(&TurtleControlNode::pose_callback, this, std::placeholders::_1));
+        param_callback_handle_ = this->add_on_set_parameters_callback(std::bind(&TurtleControlNode::param_callback, this, std::placeholders::_1));
+        this->declare_parameter("p_k", 1.0);
+        this->get_parameter("p_k", p_k_);
     }
 
     void pose_callback(const turtlesim::msg::Pose::SharedPtr pose_msg)
@@ -32,8 +37,8 @@ public:
         float current_y = pose_msg->y;
         float current_theta = pose_msg->theta;
         geometry_msgs::msg::Twist cmd;
-        cmd.linear.x = target_x_ - current_x;
-        cmd.linear.y = target_y_ - current_y;
+        cmd.linear.x = (target_x_ - current_x) * p_k_;
+        cmd.linear.y = (target_y_ - current_y) * p_k_;
         cmd.angular.z = 0.0;
         if(get_first_target_)
             cmd_pub_->publish(cmd);
@@ -54,6 +59,22 @@ public:
             get_first_target_ = true;
         }
         return;
+    }
+
+    rcl_interfaces::msg::SetParametersResult param_callback(const std::vector<rclcpp::Parameter> &parameters)
+    {
+        rcl_interfaces::msg::SetParametersResult result;
+        result.successful = true;
+        result.reason = "success";
+        for(const rclcpp::Parameter &param : parameters)
+        {
+            if(param.get_name() == "p_k")
+            {
+                p_k_ = param.as_double();
+                RCLCPP_INFO(this->get_logger(), "Parameter p_k updated to: %.2f", p_k_);
+            }
+        }
+        return result;
     }
 };
 
