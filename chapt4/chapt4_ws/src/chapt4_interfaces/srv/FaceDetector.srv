@@ -4,5 +4,5 @@ int16 num
 float32 use_time
 int32[] top
 int32[] right
-int32[] buttom
+int32[] bottom
 int32[] left
