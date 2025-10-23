@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="tracer">
+    <link name="chassis" >
+        <visual>
+            <geometry>
+                <cylinder radius="${chassis_radius}" length="${chassis_length}"/>
+            </geometry>
+            <material name="chassis_color">
+                <color rgba="0.0 0.0 0.0 0.5"/>
+            </material>
+        </visual>
+        <!-- 碰撞参数 -->
+        <collision>
+            <geometry>
+                <cylinder radius="${chassis_radius}" length="${chassis_length}"/>
+            </geometry>
+        </collision>
+        <!-- 惯性矩阵 -->
+        <xacro:cylinder_inertial_matrix m="${chassis_mass}" r="${chassis_radius}" h="${chassis_length}"/>
+    </link>
+    <joint name="chassis2base" type="fixed">
+        <parent link="base_link"/>
+        <child link="chassis"/>
+        <origin xyz="0.0 0.0 ${chassis_radius/2+sphere_radius*2}" rpy="0.0 0.0 0.0"/>
+    </joint>
+    <!-- gazebo颜色设置 -->
+    <gazebo reference="chassis">
+        <material>Gazebo/Black</material>
+    </gazebo>
+</robot>
