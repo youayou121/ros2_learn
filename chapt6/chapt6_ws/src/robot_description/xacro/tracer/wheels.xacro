@@ -25,7 +25,7 @@
             <axis xyz="0 1 0"/>
             <origin xyz="0 ${wheel_dist/2*flag} ${(sphere_radius*2+chassis_length/2-wheel_radius)*-1}" rpy="0 0 0"/>
         </joint>
-        <transmission name="${wheel_name}2chassis_trans">
+        <!-- <transmission name="${wheel_name}2chassis_trans">
             <type>transmission_interface/SimpleTransmission</type>
             <joint name="${wheel_name}2chassis">
                 <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
@@ -34,32 +34,36 @@
                 <mechanicalReduction>1.0</mechanicalReduction>
                 <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
             </actuator>
-        </transmission>
+        </transmission> -->
+        <gaezbo reference = "${wheel_name}_wheel">
+            <mu1 value = "20.0"/>
+            <mu2 value = "20.0"/>
+            <kp value = "1000000000.0"/>
+            <kd value = "1.0"/>
+        </gaezbo>
     </xacro:macro>
     <xacro:wheel_func wheel_name="left" flag = "1"/>
     <xacro:wheel_func wheel_name="right" flag = "-1"/>
  
     <gazebo>
         <plugin name="differential_drive_controller" filename="libgazebo_ros_diff_drive.so">
-            <rosDebugLevel>Debug</rosDebugLevel>
-            <publishWheelTF>false</publishWheelTF>
-            <robotNamespace>/</robotNamespace>
-            <publishTf>1</publishTf>
-            <publishWheelJointState>false</publishWheelJointState>
-            <alwaysOn>true</alwaysOn>
-            <updateRate>100.0</updateRate>
-            <legacyMode>true</legacyMode>
-            <leftJoint>left2chassis</leftJoint> <!-- 左轮 -->
-            <rightJoint>right2chassis</rightJoint> <!-- 右轮 -->
-            <wheelSeparation>${0.6+wheel_length}</wheelSeparation> <!-- 车轮间距 -->
-            <wheelDiameter>${wheel_radius*2}</wheelDiameter> <!-- 车轮直径 -->
-            <broadcastTF>1</broadcastTF>
-            <wheelTorque>30</wheelTorque>
-            <wheelAcceleration>1.8</wheelAcceleration>
-            <commandTopic>/cmd_vel</commandTopic> <!-- 运动控制话题 -->
-            <odometryFrame>/odom</odometryFrame> 
-            <odometryTopic>/odom</odometryTopic> <!-- 里程计话题 -->
-            <robotBaseFrame>/base_link</robotBaseFrame> <!-- 根坐标系 -->
+            <ros>
+                <namespace>/</namespace>
+            </ros>
+            <update_rate>30.0</update_rate>
+
+            <left_joint>left2chassis</left_joint> 
+            <right_joint>right2chassis</right_joint>
+            <wheel_separation>${0.6+wheel_length}</wheel_separation> 
+            <wheel_diameter>${wheel_radius*2}</wheel_diameter>
+
+            <max_wheel_torque>20</max_wheel_torque>
+            <max_wheel_acceleration>1.0</max_wheel_acceleration>
+            <publish_odom>true</publish_odom>
+            <publish_odom_tf>true</publish_odom_tf>
+            <publish_wheel_tf>true</publish_wheel_tf>
+            <odometry_frame>odom</odometry_frame>
+            <robot_base_frame>base_link</robot_base_frame>
         </plugin>
     </gazebo>
 </robot>
