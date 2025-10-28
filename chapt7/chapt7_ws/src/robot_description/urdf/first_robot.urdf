@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<robot name = "first_robot">
+    <!-- robot body-->
+     <link name = "base_link">
+        <visual>
+            <origin />
+            <geometry>
+                <cylinder radius="0.1" length="0.12"/>
+            </geometry>
+            <material name="base_color">
+                <color rgba="1.0 0.0 0.0 0.5"/>
+            </material> 
+        </visual>
+     </link>
+     <link name = "imu_link">
+        <visual>
+            <origin />
+            <geometry>
+                <box size="0.02 0.02 0.02"/>
+            </geometry>
+            <material name="imu_color">
+                <color rgba="0.0 0.0 0.0 0.5"/>
+            </material> 
+        </visual>
+     </link>
+
+     <joint name="imu_in_base" type="fixed">
+        <parent link="base_link"/>
+        <child link="imu_link"/>
+        <origin xyz="0.0 0.0 0.12"/>
+     </joint>
+</robot>

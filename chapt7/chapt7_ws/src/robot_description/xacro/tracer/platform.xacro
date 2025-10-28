@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="tracer">
+    <link name="platform">
+        <visual>
+            <geometry>
+                <cylinder radius="${chassis_radius}" length="0.05"/>
+            </geometry>
+        </visual>
+        <collision>
+            <geometry>
+                <cylinder radius="${chassis_radius}" length="0.05"/>
+            </geometry>
+        </collision>
+         <xacro:cylinder_inertial_matrix m="1.0" r="${chassis_radius}" h="0.05"/>
+    </link>
+    <joint name="platform2chassis" type="prismatic">
+        <parent link="chassis"/>
+        <child link="platform"/>
+        <axis xyz="0 0 1"/>
+        <limit lower="0.0" upper="1.0" velocity="0.5" effort="1000.0"/>
+        <origin xyz="0 0 ${chassis_length+0.2}" rpy="0 0 0"/>
+    </joint>
+    <transmission name="platform2chassis_trans">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="platform2chassis">
+            <hardwareInterface>PositionJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="platform2chassis_motor">
+            <mechanicalReduction>1.0</mechanicalReduction>
+            <hardwareInterface>PositionJointInterface</hardwareInterface>
+        </actuator>
+    </transmission>
+    <gazebo>
+        <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+            <robotNamespace>/tracer</robotNamespace>
+            <robotParam>/robot_description</robotParam>
+            <legacyModeNS>true</legacyModeNS> 
+            <robotSimType>gazebo_ros_control/DefaultRobotHWSim</robotSimType>
+        </plugin>
+    </gazebo>
+</robot>
