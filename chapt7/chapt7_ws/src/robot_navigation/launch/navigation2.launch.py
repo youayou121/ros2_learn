@@ -11,7 +11,7 @@ def generate_launch_description():
         'robot_navigation')
     nav2_bringup_dir = get_package_share_directory('nav2_bringup')
     rviz_config_dir = os.path.join(
-        nav2_bringup_dir, 'rviz', 'nav2_default_view.rviz')
+        robot_navigation_dir, 'config', 'my_navigation.rviz')
     
     # 创建 Launch 配置
     use_sim_time = launch.substitutions.LaunchConfiguration(
