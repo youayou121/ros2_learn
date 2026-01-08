@@ -22,10 +22,18 @@
         <child link="camera" />
         <origin xyz="0.3 0.0 ${chassis_length/2+camera_size_z/2+lidar_length}" rpy="0.0 0.0 0.0" />
     </joint>
+    <link name="depth_camera_frame"/>
+    <joint name="camera_optical_joint" type="fixed">
+        <parent link="camera"/>
+        <child link="depth_camera_frame"/>
+        <origin
+            xyz="0 0 0"
+            rpy="-1.57079632679 0 -1.57079632679"/>
+    </joint>
     <gazebo reference="camera">
         <sensor type="depth" name="camera_sensor">
             <plugin name="depth_camera" filename="libgazebo_ros_camera.so">
-                <frame_name>camera</frame_name>
+                <frame_name>depth_camera_frame</frame_name>
             </plugin>
             <always_on>true</always_on>
             <update_rate>10</update_rate>
@@ -47,5 +55,5 @@
             </camera>
         </sensor>
     </gazebo>
-
+    
 </robot>

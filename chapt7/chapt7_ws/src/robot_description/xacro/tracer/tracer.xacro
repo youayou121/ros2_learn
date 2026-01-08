@@ -36,7 +36,7 @@
     <!-- <xacro:include filename="$(find robot_description)/xacro/tracer/platform.xacro"/> -->
     <xacro:include filename="$(find robot_description)/xacro/tracer/chassis.xacro"/>
     <xacro:include filename="$(find robot_description)/xacro/tracer/lidar.xacro"/>
-    <!-- <xacro:include filename="$(find robot_description)/xacro/tracer/camera.xacro"/> -->
+    <xacro:include filename="$(find robot_description)/xacro/tracer/camera.xacro"/>
     <!-- <xacro:include filename="$(find robot_description)/xacro/tracer/kinect_camera.xacro"/> -->
     <xacro:include filename="$(find robot_description)/xacro/tracer/spheres.xacro"/>
     <xacro:include filename="$(find robot_description)/xacro/tracer/wheels.xacro"/>

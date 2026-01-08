@@ -1,6 +1,6 @@
 from setuptools import find_packages, setup
-
-package_name = 'robot_application'
+from glob import glob
+package_name = 'autopatrol_robot'
 
 setup(
     name=package_name,
@@ -10,11 +10,13 @@ setup(
         ('share/ament_index/resource_index/packages',
             ['resource/' + package_name]),
         ('share/' + package_name, ['package.xml']),
+        ('share/' + package_name + "/config", ['config/patrol_config.yaml']),
+        ('share/' + package_name + "/launch", glob('launch/*.launch.py')),
     ],
     install_requires=['setuptools'],
     zip_safe=True,
     maintainer='youayou',
-    maintainer_email='1252759359@qq.com',
+    maintainer_email='youayou121@github.com',
     description='TODO: Package description',
     license='Apache-2.0',
     extras_require={
@@ -24,10 +26,8 @@ setup(
     },
     entry_points={
         'console_scripts': [
-            'init_robot_pose = robot_application.init_robot_pose:main',
-            'get_robot_pose = robot_application.get_robot_pose:main',
-            'nav_to_pose = robot_application.nav_to_pose:main',
-            'waypoint_follower = robot_application.waypoint_follower:main',
+            'patrol_node=autopatrol_robot.patrol_node:main',
+            'speaker=autopatrol_robot.speaker:main',
         ],
     },
 )
