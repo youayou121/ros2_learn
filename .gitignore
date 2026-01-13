@@ -19,4 +19,7 @@ chapt7/chapt7_ws/log/
 chapt8/chapt8_ws/build/
 chapt8/chapt8_ws/install/
 chapt8/chapt8_ws/log/
+chapt9/chapt9_ws/build/
+chapt9/chapt9_ws/install/
+chapt9/chapt9_ws/log/
 *.log
