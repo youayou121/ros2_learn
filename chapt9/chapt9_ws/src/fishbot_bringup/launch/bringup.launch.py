@@ -8,7 +8,12 @@ def generate_launch_description():
         'fishbot_bringup')
     ydlidar_ros2_dir = get_package_share_directory(
         'ydlidar')
-
+    fishbot_navigation2_dir = get_package_share_directory(
+        'fishbot_navigation2')
+    ekf_filter_node = launch.actions.IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            [fishbot_navigation2_dir, '/launch', '/odom_ekf.launch.py']),
+    )
     urdf2tf = launch.actions.IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             [fishbot_bringup_dir, '/launch', '/urdf2tf.launch.py']),
@@ -47,5 +52,6 @@ def generate_launch_description():
         odom2tf,
         microros_agent,
         ros_serail2wifi,
-        ydlidar_delay
+        ydlidar_delay,
+        ekf_filter_node
     ])

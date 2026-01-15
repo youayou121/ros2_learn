@@ -49,6 +49,7 @@
         <plugin name="differential_drive_controller" filename="libgazebo_ros_diff_drive.so">
             <ros>
                 <namespace>/</namespace>
+                <remapping>odom:=wheel_odom</remapping>
             </ros>
             <update_rate>30.0</update_rate>
 
@@ -60,7 +61,7 @@
             <max_wheel_torque>20</max_wheel_torque>
             <max_wheel_acceleration>1.0</max_wheel_acceleration>
             <publish_odom>true</publish_odom>
-            <publish_odom_tf>true</publish_odom_tf>
+            <publish_odom_tf>false</publish_odom_tf>
             <publish_wheel_tf>true</publish_wheel_tf>
             <odometry_frame>odom</odometry_frame>
             <robot_base_frame>base_link</robot_base_frame>

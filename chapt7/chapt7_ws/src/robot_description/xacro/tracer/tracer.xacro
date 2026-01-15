@@ -41,6 +41,6 @@
     <xacro:include filename="$(find robot_description)/xacro/tracer/spheres.xacro"/>
     <xacro:include filename="$(find robot_description)/xacro/tracer/wheels.xacro"/>
     <!-- <xacro:include filename="$(find robot_description)/xacro/robot_ros2_control.xacro"/> -->
-    <!-- <xacro:include filename="$(find robot_description)/xacro/tracer/imu.xacro"/> -->
+    <xacro:include filename="$(find robot_description)/xacro/tracer/imu.xacro"/>
     
 </robot>

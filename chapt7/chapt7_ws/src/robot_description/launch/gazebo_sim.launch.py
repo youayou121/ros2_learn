@@ -3,7 +3,7 @@ import launch_ros
 from ament_index_python.packages import get_package_share_directory
 
 import os
-
+from launch.launch_description_sources import PythonLaunchDescriptionSource
 def generate_launch_description():
 
     pkg_name = 'robot_description'
@@ -45,11 +45,18 @@ def generate_launch_description():
         executable="spawn_entity.py",
         arguments=['-topic', '/robot_description', '-entity', 'my_robot']
     )
+    fishbot_navigation2_dir = get_package_share_directory(
+        'fishbot_navigation2')
+    ekf_filter_node = launch.actions.IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            [fishbot_navigation2_dir, '/launch', '/odom_ekf.launch.py']),
+    )
     return launch.LaunchDescription([
         action_launch_gazebo,
         action_declare_model_path_xacro,
         action_robot_state_publisher,
         # joint_state_publisher,
         # action_rviz2,
-        action_spawn_entity
+        action_spawn_entity,
+        ekf_filter_node
     ])

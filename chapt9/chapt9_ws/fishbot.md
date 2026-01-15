@@ -1,3 +1,5 @@
+
+## 使用docker镜像
 chassis
 ```
 sudo docker run -it --rm -v /dev:/dev -v /dev/shm:/dev/shm --privileged --net=host registry.cn-hangzhou.aliyuncs.com/fishros/micro-ros-agent:$ROS_DISTRO udp4 --port 8888 -v6
@@ -19,8 +21,15 @@ bringup
 ros2 launch fishbot_bringup bringup_quick.launch.py
 ```
 
+## 不使用docker镜像
+```
+ros2 launch fishbot_bringup bringup.launch.py
+```
+
+## 开始导航
 launch navigation
 
 ```
 ros2 launch fishbot_navigation2 navigation2.launch.py use_sim_time:=False
 ```
+
